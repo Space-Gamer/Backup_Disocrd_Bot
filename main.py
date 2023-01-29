@@ -23,8 +23,9 @@ async def on_ready():
     # Upload a file
     try:
         with open(file_name, 'rb') as f:
-            await active_channel.send(f"Backup on {datetime.utcnow().strftime('%A : %d-%m-%Y %H:%M:%S UTC')}",
-                                      file=discord.File(f))
+            if datetime.utcnow().hour == 0:
+                await active_channel.send(f"{'='*30} Backup on {datetime.utcnow().strftime('%A : %d-%m-%Y')} {'='*30}")
+            await active_channel.send(f"{datetime.utcnow().strftime('%H:00 UTC')}", file=discord.File(f))
     except FileNotFoundError:
         await active_channel.send(f'File "{file_name}" not found')
     await client.close()
